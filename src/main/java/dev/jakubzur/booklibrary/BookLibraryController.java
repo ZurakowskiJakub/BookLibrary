@@ -2,11 +2,13 @@ package dev.jakubzur.booklibrary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,7 +27,7 @@ public class BookLibraryController {
   private BookRepository bookRepository;
 
   @GetMapping("/getBooks")
-  public Iterable<Book> getBooks(
+  public List<Book> getBooks(
       @RequestParam(value = "isbn", required = false) String isbn) {
 
     List<Book> books = new ArrayList<Book>();
@@ -77,6 +79,23 @@ public class BookLibraryController {
     bookRepository.save(newBook);
 
     return newBook;
+  }
+
+  @DeleteMapping("/removeBook")
+  public List<Book> removeBook(
+      @RequestBody Map<String, String> params) {
+
+    String isbn = params.get("isbn");
+
+    Optional<Book> book = bookRepository.findById(isbn);
+    if (book.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.BOOK_NOT_FOUND);
+    }
+
+    bookRepository.delete(book.get());
+    List<Book> books = (List<Book>) bookRepository.findAll();
+
+    return books;
   }
 
 }
