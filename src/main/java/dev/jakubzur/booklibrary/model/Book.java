@@ -1,4 +1,4 @@
-package dev.jakubzur.booklibrary;
+package dev.jakubzur.booklibrary.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

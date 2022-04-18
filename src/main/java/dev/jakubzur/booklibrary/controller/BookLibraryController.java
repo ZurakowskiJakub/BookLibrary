@@ -1,4 +1,4 @@
-package dev.jakubzur.booklibrary;
+package dev.jakubzur.booklibrary.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import dev.jakubzur.booklibrary.model.Book;
+import dev.jakubzur.booklibrary.repo.BookRepository;
 
 @RestController
 public class BookLibraryController {
